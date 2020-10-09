@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script type="text/JavaScript" src="https://MomentJS.com/downloads/moment.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1" id="nav-heading">Weather Dashboard</span>
+    </nav>
+
+    <div class="container">
+        <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Search for a City</h3>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit" id="search-city">Search</button>
+                </form>
+            </div>
+            <div class="col-6 col-md-8">
+
+                <div class="row weather-box">
+                    <div class="col-lg-12">
+                        <div class="weather-container border border-secondary rounded-sm">
+                            <span>
+                                <div class="city"></div><img id="weather-icon"></img>
+                            </span>
+
+                            <div class="temp">Temprature: </div>
+                            <div class="humidity">Humidity: </div>
+                            <div class="wind">Wind Speed: </div>
+                            <div class="uv-index">UV Index: </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 5- Day Forcast  -->
+                <div class="row">
+                    <div class="forcast-container">
+                        <div class="col-lg-12">
+                            <h2 class="five-day">5-Day Forecast: </h2>
+                            <div class="card-deck text-center" style="color: grey;">
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        Featured
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item day1-icon">Weather Icon</li>
+                                        <li class="list-group-item day1-temp">Temprature</li>
+                                        <li class="list-group-item day1-hum">Humidity</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        Featured
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item day2-icon">Weather Icon</li>
+                                        <li class="list-group-item day2-temp">Temprature</li>
+                                        <li class="list-group-item day2-hum">Humidity</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        Featured
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item day3-icon">Weather Icon</li>
+                                        <li class="list-group-item day3-temp">Temprature</li>
+                                        <li class="list-group-item day3-hum">Humidity</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        Featured
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item day4-icon">Weather Icon</li>
+                                        <li class="list-group-item day4-temp">Temprature</li>
+                                        <li class="list-group-item day4-hum">Humidity</li>
+                                    </ul>
+                                </div>
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        Featured
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Weather Icon</li>
+                                        <li class="list-group-item">Temprature</li>
+                                        <li class="list-group-item">Humidity</li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

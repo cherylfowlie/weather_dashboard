@@ -1,0 +1,13 @@
+#nav-heading {
+  text-align: center;
+}
+
+.weather-container {
+  height: 250px;
+  background-color: white;
+  border-style: solid;
+  border: 2px;
+  border-color: black;
+  margin-top: 20px;
+  padding: 10px;
+}
