@@ -1,48 +1,153 @@
 var apiKey = "86bf5555dacf7ee41e8ab05473b6d58a";
 
-function currentWeather() {
-    navigator.geolocation.getCurrentPosition(function (position) {
-        longitude = position.coords.longitude;
-        latitude = position.coords.latitude;
+$(document).ready(function () {
+  $("#search-button").on("click", function () {
+    var searchValue = $("#search-value").val();
 
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
-        var UVIndexURL = " http://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
+    searchWeather(searchValue);
+  });
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            var iconCode = response.weather[0].icon;
+  $(".history").on("click", "li", function () {
+    searchWeather($(this).text());
+  });
 
-            var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
-            $(".city").html("<h1> " + response.name + " </h1>");
-            $(".temp").text("Temperature: " + ((response.main.temp - 273.15) * 1.8 + 32).toFixed(0) + " °F");
-            $(".humidity").text("Humidity: " + response.main.humidity + " %");
-            $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
-            $("#weather-icon").attr("src", iconurl);
-        });
+  function makeRow(text) {
+    var li = $("<li>")
+      .addClass("list-group-item list-group-item-action")
+      .text(text);
+    $(".history").append(li);
+  }
 
-        $.ajax({
-            url: UVIndexURL,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            $(".uv-index").text("UV Index: " + response[0].value);
-        })
-    });
-};
-
-function fiveDayForecast() {
-    var city = "sydney";
-    var fiveDayURL = "https://api.openweathermap.org/data/2.5/forcast?q=" + city + "&appid=" + apiKey;
+  function searchWeather(searchValue) {
     $.ajax({
-        url: fiveDayURL,
-        method: "GET"
-    }).then(function (response) {
-        console.log(response);
-    });
-};
+      type: "GET",
+      url:
+        "http://api.openweathermap.org/data/2.5/weather?q=" +
+        searchValue +
+        "&appid=" +
+        apiKey +
+        "&units=imperial",
+      dataType: "json",
+      success: function (data) {
+        if (history.indexOf(searchValue) === -1) {
+          history.push(searchValue);
+          window.localStorage.setItem("history", JSON.stringify(history));
 
-currentWeather();
-fiveDayForecast();
+          makeRow(searchValue);
+        }
+
+        $("#today").empty();
+
+        var title = $("<h3>")
+          .addClass("card-title")
+          .text(data.name + " (" + new Date().toLocaleDateString() + ")");
+        var card = $("<div>").addClass("card");
+        var wind = $("<p>")
+          .addClass("card-text")
+          .text("Wind Speed: " + data.wind.speed + " MPH");
+        var humid = $("<p>")
+          .addClass("card-text")
+          .text("Humidity: " + data.main.humidity + "%");
+        var temp = $("<p>")
+          .addClass("card-text")
+          .text("Temperature: " + data.main.temp + " °F");
+        var cardBody = $("<div>").addClass("card-body");
+        var img = $("<img>").attr(
+          "src",
+          "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
+        );
+
+        // merge and add to page
+        title.append(img);
+        cardBody.append(title, temp, humid, wind);
+        card.append(cardBody);
+        $("#today").append(card);
+
+        // call follow-up api endpoints
+        currentForcast(searchValue);
+        getUVIndex(data.coord.lat, data.coord.lon);
+      },
+    });
+  }
+
+  function currentForcast(searchValue) {
+    $.ajax({
+      type: "GET",
+      url:
+        "http://api.openweathermap.org/data/2.5/forecast?q=" +
+        searchValue +
+        "&appid=" +
+        apiKey +
+        "&units=imperial",
+      dataType: "json",
+      success: function (data) {
+        $("#weather")
+          .html('<h4 class="mt-3">5-Day Forecast:</h4>')
+          .append('<div class="row">');
+
+        for (var i = 0; i < data.list.length; i++) {
+          if (data.list[i].dt_txt.indexOf("12:00:00") !== -1) {
+            var col = $("<div>").addClass("col-md-2");
+            var card = $("<div>").addClass("card bg-primary text-white");
+            var body = $("<div>").addClass("card-body p-2");
+
+            var title = $("<h5>")
+              .addClass("card-title")
+              .text(new Date(data.list[i].dt_txt).toLocaleDateString());
+
+            var img = $("<img>").attr(
+              "src",
+              "http://openweathermap.org/img/w/" +
+                data.list[i].weather[0].icon +
+                ".png"
+            );
+
+            var p1 = $("<p>")
+              .addClass("card-text")
+              .text("Temp: " + data.list[i].main.temp_max + " °F");
+            var p2 = $("<p>")
+              .addClass("card-text")
+              .text("Humidity: " + data.list[i].main.humidity + "%");
+
+            col.append(card.append(body.append(title, img, p1, p2)));
+            $("#weather .row").append(col);
+          }
+        }
+      },
+    });
+  }
+
+  function getUVIndex(lat, lon) {
+    $.ajax({
+      type: "GET",
+      url:
+        "http://api.openweathermap.org/data/2.5/uvi?appid=" +
+        apiKey +
+        "&lat=" +
+        lat +
+        "&lon=" +
+        lon,
+      dataType: "json",
+      success: function (data) {
+        var uv = $("<p>").text("UV Index: ");
+        var btn = $("<span>").addClass("btn btn-sm").text(data.value);
+
+        if (data.value < 3) {
+          btn.addClass("btn-success");
+        } else if (data.value < 7) {
+          btn.addClass("btn-warning");
+        } else {
+          btn.addClass("btn-danger");
+        }
+
+        $("#today .card-body").append(uv.append(btn));
+      },
+    });
+  }
+
+  var history = JSON.parse(window.localStorage.getItem("history")) || [];
+
+  if (history.length > 0) {
+    searchWeather(history[history.length - 1]);
+  }
+});

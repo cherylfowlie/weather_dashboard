@@ -1,0 +1,22 @@
+{
+  "name": "weather_dashboard",
+  "version": "1.0.0",
+  "description": "Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cherylfowlie/weather_dashboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cherylfowlie/weather_dashboard/issues"
+  },
+  "homepage": "https://github.com/cherylfowlie/weather_dashboard#readme",
+  "dependencies": {
+    "prettier": "^2.2.1"
+  }
+}
